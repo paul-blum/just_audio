@@ -19,7 +19,14 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  final _player = AudioPlayer();
+  final _player = AudioPlayer(
+      audioLoadConfiguration: AudioLoadConfiguration(
+    androidLoadControl: AndroidLoadControl(
+      minBufferDuration: Duration(seconds: 6),
+      maxBufferDuration: Duration(seconds: 6),
+      prioritizeTimeOverSizeThresholds: true,
+    ),
+  ));
 
   @override
   void initState() {
@@ -45,7 +52,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
     try {
       // AAC example: https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.aac
       await _player.setAudioSource(AudioSource.uri(Uri.parse(
-          "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3")));
+          "https://cdn.pixabay.com/download/audio/2022/08/20/audio_55aa207a92.mp3?filename=catch-it-117676.mp3")));
     } catch (e) {
       print("Error loading audio source: $e");
     }
